@@ -2,6 +2,7 @@ from constants import *
 from player import *
 from asteroid import *
 from asteroidfield import *
+import sys
 
 # this allows us to use code from
 # the open-source pygame library
@@ -27,8 +28,8 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
 
-    _ = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-    asteroid_field = AsteroidField()
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    _ = AsteroidField()
 
     while(True):
         for event in pygame.event.get():
@@ -36,6 +37,11 @@ def main():
                 return
             
         updatable.update(dt)
+
+        for a in asteroids:
+            if player.check_collision(a):
+                print("Game over!")
+                sys.exit(0)
 
         screen.fill("black")
 
